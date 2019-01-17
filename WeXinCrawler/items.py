@@ -40,7 +40,7 @@ class WexincrawlerItem(scrapy.Item):
 
     def get_insert_sql(self):
         insert_sql = """
-              insert into new_weixin_spider(cover, appmsgid, diqest, link, title, content, update_time) VALUES (%s, %s, %s, %s, %s, %s, %s)
+              insert into weixin_spider(cover, appmsgid, diqest, link, title, content, update_time) VALUES (%s, %s, %s, %s, %s, %s, %s)
               ON DUPLICATE KEY UPDATE appmsgid=VALUES(appmsgid), link=VALUES(link)
           """
         params = (
