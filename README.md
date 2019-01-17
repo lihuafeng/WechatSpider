@@ -92,7 +92,7 @@ MYSQL_USER = "root"
 MYSQL_PASSWORD = "xxxxxx"
 ```
 数据库表结构
-···
+```python
                   CREATE TABLE `weixin_spider` (                             
                      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,               
                      `cover` varchar(255) DEFAULT NULL,                           
@@ -104,7 +104,7 @@ MYSQL_PASSWORD = "xxxxxx"
                      `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',  
                      PRIMARY KEY (`id`)                                           
                    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4
-···
+```
 ## 使用
 
 * 启动
