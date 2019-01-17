@@ -63,7 +63,7 @@ MONGO_PORT = 27017  # 端口号
 MONGO_DB = "Weixin_Spider"  # 库名
 MONGO_COLLECTION = "weixin_article"  # collection名
 ```
-* MySQL数据库连接配置，需要配置ITEM_PIPELINES种的MysqlTwistedPipline存储
+* MySQL数据库连接配置，需要配置ITEM_PIPELINES种的MysqlTwistedPipline存储,建议使用
 * 需要自行建立数据表
   * 表名：weixin_spider
   * 字段：id
@@ -79,7 +79,9 @@ MONGO_COLLECTION = "weixin_article"  # collection名
   * 字段：link
      * 类型：varchar
   * 字段：title
-     * 类型：varchar  
+     * 类型：varchar
+  * 字段：content
+     * 类型：text
   * 字段：update_time
      * 类型：datetime   
 ```python
@@ -88,6 +90,20 @@ MYSQL_HOST = "127.0.0.1"
 MYSQL_DBNAME = "Weixin_Spider"
 MYSQL_USER = "root"
 MYSQL_PASSWORD = "xxxxxx"
+```
+数据库表结构
+```python
+                  CREATE TABLE `weixin_spider` (                             
+                     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,               
+                     `cover` varchar(255) DEFAULT NULL,                           
+                     `appmsgid` varchar(255) DEFAULT NULL,                        
+                     `diqest` varchar(255) DEFAULT NULL,                          
+                     `link` varchar(255) DEFAULT NULL,                            
+                     `title` varchar(255) DEFAULT NULL,
+                     `content` text COMMENT '文章内容', 
+                     `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',  
+                     PRIMARY KEY (`id`)                                           
+                   ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4
 ```
 ## 使用
 
@@ -111,7 +127,8 @@ MYSQL_PASSWORD = "xxxxxx"
 * 根据登录获取的`token`和`cookies`进行`headers`构建
 * 发起请求进行 公帐号的获取，返回数据格式为json,需要获取`fakeid`
 * 根据获取的`fakeid`进行具体的文章列表解析。返回数据为json
-* 解析总页数，进行数据的递归爬取
+* 解析总页数，进行文章列表的递归爬取
+* 遍历爬取文章内容
  
 ## 爬取文章
 参考文章 
@@ -122,5 +139,8 @@ MYSQL_PASSWORD = "xxxxxx"
 * 多个公帐号同时爬取
 * 授权账户的本地化
 * 
+## 问题
+
+* 抓取文章失败，请大神帮忙完善
 
 
