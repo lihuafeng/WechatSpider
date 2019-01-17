@@ -22,7 +22,9 @@ ITEM_PIPELINES = {
   # 'WeXinCrawler.pipelines.MongDBPipeline': 300,
     'WeXinCrawler.pipelines.MysqlTwistedPipline': 300,
 }
-
+DOWNLOADER_MIDDLEWARES = {
+   'WeXinCrawler.middlewares.SeleniumDownloaderMiddleware': 543,
+}
 
 
 # 公账号授权的信息的list，用于在爬虫被禁掉时，自动切换账户

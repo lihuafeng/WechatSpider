@@ -6,7 +6,7 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
-
+import time
 
 class WexincrawlerSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -101,3 +101,48 @@ class WexincrawlerDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+from scrapy.http import HtmlResponse
+class SeleniumDownloaderMiddleware(object):
+
+    def __init__(self):
+        """
+        初始化创建driver对象
+        """
+        options = Options()
+        options.add_argument('-headless')  # 无头参数
+        # self.driver = webdriver.Chrome(executable_path=r"./chromedriver")
+        self.driver = webdriver.Firefox(executable_path='./geckodriver', firefox_options=options)
+
+    def process_request(self, request, spider):
+        """
+        拦截下载器
+        :param request:
+        :param spider:
+        :return:
+        """
+
+        url = request.url
+
+        # 注意：这里要判断是否爬首页列表，还是爬文章列表
+        # 如果是爬取首页的公众号，就使用默认的下载器
+        if 'mid=' not in url:
+            return None
+
+        self.driver.get(url)
+
+        # 强制等待 2 秒
+        time.sleep(2)
+
+        source = self.driver.page_source
+
+        # 构建一个response对象
+        response = HtmlResponse(self.driver.current_url, body=source.encode('utf-8'), request=request, encoding='utf-8')
+
+        return response
+
+    # 拦截之后，process_response不会再被调用
+    # def process_response(self, request, response, spider):
+    #     return response
