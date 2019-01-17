@@ -91,6 +91,20 @@ MYSQL_DBNAME = "Weixin_Spider"
 MYSQL_USER = "root"
 MYSQL_PASSWORD = "xxxxxx"
 ```
+数据库表结构
+···
+                  CREATE TABLE `weixin_spider` (                             
+                     `id` int(10) unsigned NOT NULL AUTO_INCREMENT,               
+                     `cover` varchar(255) DEFAULT NULL,                           
+                     `appmsgid` varchar(255) DEFAULT NULL,                        
+                     `diqest` varchar(255) DEFAULT NULL,                          
+                     `link` varchar(255) DEFAULT NULL,                            
+                     `title` varchar(255) DEFAULT NULL,
+                     `content` text COMMENT '文章内容', 
+                     `update_time` timestamp NULL DEFAULT '0000-00-00 00:00:00',  
+                     PRIMARY KEY (`id`)                                           
+                   ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4
+···
 ## 使用
 
 * 启动
